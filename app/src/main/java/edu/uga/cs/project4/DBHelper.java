@@ -60,7 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ")";
 
     // private constructor
-    private DBHelper(Context, context) {
+    private DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
