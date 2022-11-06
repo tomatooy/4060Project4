@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -62,11 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new fragment based on the used selection in the nav drawer
         switch( menuItem.getItemId() ) {
-            case R.id.menu_add:
-                fragment = new newGameFragment();
-                break;
-            case R.id.menu_review:
+            case R.id.menu_game:
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                MainActivity.this.startActivity(intent);
+                return;
+            case R.id.menu_histry:
                 fragment = new viewHistoryFragment();
+                break;
+            case R.id.main_screen:
+                fragment = new MainScreen();
                 break;
             default:
                 return;
