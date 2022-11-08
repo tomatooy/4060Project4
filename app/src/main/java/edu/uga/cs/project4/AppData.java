@@ -19,13 +19,13 @@ public class AppData {
     public static final String DEBUG_TAG = "AppData";
 
     // this is a reference to our db; used later to run SQL commands
-    private SQLiteDatabase db;
-    private SQLiteOpenHelper myDBHelper;
+    public SQLiteDatabase db;
+    public SQLiteOpenHelper myDBHelper;
 
 
-    public AppData(Context context) {
-        this.myDBHelper = DBHelper.getInstance(context);
-    }
+    //public AppData(Context context) {
+      //  this.myDBHelper = DBHelper.getInstance(context);
+    //}
 
     // open the database
     public void open(Context context) {

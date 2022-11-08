@@ -14,7 +14,7 @@ import android.os.Looper;
  * @param <Param> type of the input parameter for doInBackground
  * @param <Result> type of the result value returned by doInBackground
  */
-public abstract class AsyncTask<Param, Result> {
+/*public abstract class AsyncTask<Param, Result> {
 
     private void executeInBackground(Param... params) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -43,3 +43,4 @@ public abstract class AsyncTask<Param, Result> {
     protected abstract void onPostExecute(ArrayList<Question> results);
 
 }
+*/
