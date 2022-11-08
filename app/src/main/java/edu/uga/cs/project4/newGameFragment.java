@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link newGameFragment#newInstance} factory method to
@@ -45,7 +48,7 @@ public class newGameFragment extends Fragment {
     };
 
     private static int row;
-    private boolean answered = false;
+
 
     public newGameFragment() {
         // Required empty public constructor
@@ -80,6 +83,16 @@ public class newGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ReadCSV csv = new ReadCSV();
+
+        try {
+            csv.readFile("state_capitals.csv");
+            ArrayList<String[]> Data = csv.getDataArrayList();
+            Log.d("dataArr",Data.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         TextView titleView = view.findViewById( R.id.TextViewQuestion );
         titleView.setText(androidVersions[row]);
         ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
@@ -93,9 +106,6 @@ public class newGameFragment extends Fragment {
         });
     }
 
-    public boolean returnAnsweredStat(){
-        return answered;
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

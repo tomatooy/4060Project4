@@ -17,20 +17,20 @@ public class AppData implements Serializable {
     private SQLiteDatabase db;
     private SQLiteOpenHelper myDBHelper;
     private static final String[] allColumns = {
-            DBHelper.QUESTIONS_COLUMN_ID,
-            DBHelper.QUESTIONS_COLUMN_STATE,
-            DBHelper.QUESTIONS_COLUMN_CAPITAL,
-            DBHelper.QUESTIONS_COLUMN_CITY1,
-            DBHelper.QUESTIONS_COLUMN_CITY2,
-            DBHelper.QUIZZES_COLUMN_ID,
-            DBHelper.QUIZZES_COLUMN_DATE,
-            DBHelper.QUIZZES_COLUMN_Q1,
-            DBHelper.QUIZZES_COLUMN_Q2,
-            DBHelper.QUIZZES_COLUMN_Q3,
-            DBHelper.QUIZZES_COLUMN_Q4,
-            DBHelper.QUIZZES_COLUMN_Q5,
-            DBHelper.QUIZZES_COLUMN_Q6,
-            DBHelper.QUIZZES_COLUMN_SCORE
+//            DBHelper.QUESTIONS_COLUMN_ID,
+//            DBHelper.QUESTIONS_COLUMN_STATE,
+//            DBHelper.QUESTIONS_COLUMN_CAPITAL,
+//            DBHelper.QUESTIONS_COLUMN_CITY1,
+//            DBHelper.QUESTIONS_COLUMN_CITY2,
+//            DBHelper.QUIZZES_COLUMN_ID,
+//            DBHelper.QUIZZES_COLUMN_DATE,
+//            DBHelper.QUIZZES_COLUMN_Q1,
+//            DBHelper.QUIZZES_COLUMN_Q2,
+//            DBHelper.QUIZZES_COLUMN_Q3,
+//            DBHelper.QUIZZES_COLUMN_Q4,
+//            DBHelper.QUIZZES_COLUMN_Q5,
+//            DBHelper.QUIZZES_COLUMN_Q6,
+//            DBHelper.QUIZZES_COLUMN_SCORE
     };
 
     public AppData(Context context) {
@@ -53,11 +53,11 @@ public class AppData implements Serializable {
 
     // store a new question in database
     public Question storeQuestion(Question question) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.QUESTIONS_COLUMN_STATE, question.getState());
-        values.put(DBHelper.QUESTIONS_COLUMN_CAPITAL, question.getCapital());
-        values.put(DBHelper.QUESTIONS_COLUMN_CITY1, question.getCity1());
-        values.put(DBHelper.QUESTIONS_COLUMN_CITY2, question.getCity2());
+          ContentValues values = new ContentValues();
+//        values.put(DBHelper.QUESTIONS_COLUMN_STATE, question.getState());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CAPITAL, question.getCapital());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CITY1, question.getCity1());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CITY2, question.getCity2());
 
         long id = db.insert(DBHelper.TABLE_QUESTIONS, null, values);
 
