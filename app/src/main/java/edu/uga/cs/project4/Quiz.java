@@ -26,6 +26,12 @@ public class Quiz {
                 " " + questions.get(currentQuestionIndex).toString());
     }
 
+    public Quiz(){
+        this.numberOfQuestions = 5;
+        this.percentCorrect = 0;
+        this.questionsCorrect = 0;
+    }
+
     public boolean isFinished() {
         return isFinished;
     }

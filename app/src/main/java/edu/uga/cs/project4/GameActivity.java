@@ -20,17 +20,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class GameActivity extends MainActivity {
+public class GameActivity extends AppCompatActivity {
     ArrayList<String[]> Data;
-    DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Data = new ArrayList<>();
         super.onCreate(savedInstanceState);
-
-        // Connect DrawerLayout events to the ActionBarToggle
         setContentView(R.layout.activity_game);
+        toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // Connect DrawerLayout events to the ActionBarToggle
         ViewPager2 pager = findViewById(R.id.viewpager);
         NewGameAdapter avpAdapter = new
                 NewGameAdapter(

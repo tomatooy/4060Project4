@@ -72,9 +72,7 @@ public class HistoryRecyclerAdapter
     public void onBindViewHolder(QuizHolder holder, int position) {
 
         Quiz quiz = values.get(position);
-
         Log.d(DEBUG_TAG, "onBindViewHolder: " + quiz);
-
         holder.Date.setText("10/01/2022");
         holder.Score.setText("100");
     }
