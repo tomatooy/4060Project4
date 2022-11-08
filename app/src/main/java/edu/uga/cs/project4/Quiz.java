@@ -12,6 +12,7 @@ public class Quiz {
     int numberOfQuestions;
     int questionsCorrect;
     boolean isFinished = false;
+    String Date;
 
     // POJO constructor
     public Quiz(ArrayList<Question> questions) {

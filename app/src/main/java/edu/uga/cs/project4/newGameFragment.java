@@ -24,6 +24,7 @@ import java.util.ArrayList;
  */
 public class newGameFragment extends Fragment {
 
+
     private static final String[] androidVersions = {
             "13",
             "12",
@@ -48,10 +49,13 @@ public class newGameFragment extends Fragment {
     };
 
     private static int row;
-
+    private int selected;
+    private int answer;
+    private boolean anySelected;
 
     public newGameFragment() {
         // Required empty public constructor
+        anySelected=false;
     }
 
 
@@ -60,7 +64,7 @@ public class newGameFragment extends Fragment {
         newGameFragment fragment = new newGameFragment();
         Bundle args = new Bundle();
         args.putInt( "rowNum", rowNumber );
-        args.putBoolean( "answered", false );
+        args.putBoolean( "anySelected", false );
         fragment.setArguments( args );
         return fragment;
     }
@@ -70,6 +74,7 @@ public class newGameFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if( getArguments() != null ) {
             row = getArguments().getInt( "rowNum" );
+            anySelected = getArguments().getBoolean("anySelected");
         }
     }
 
@@ -83,16 +88,6 @@ public class newGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ReadCSV csv = new ReadCSV();
-
-        try {
-            csv.readFile("state_capitals.csv");
-            ArrayList<String[]> Data = csv.getDataArrayList();
-            Log.d("dataArr",Data.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         TextView titleView = view.findViewById( R.id.TextViewQuestion );
         titleView.setText(androidVersions[row]);
         ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
@@ -103,6 +98,7 @@ public class newGameFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 page2.setUserInputEnabled(true);
             }
+
         });
     }
 
