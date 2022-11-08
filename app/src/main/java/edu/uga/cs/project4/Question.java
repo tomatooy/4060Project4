@@ -1,58 +1,57 @@
 package edu.uga.cs.project4;
 
+import java.util.*;
+
 public class Question {
     // instance variables for columns in table
-    private long id;
-    private String state;
-    private String capital;
-    private String city1;
-    private String city2;
+    public String prompt;
+    public String state;
+    public String correctAnswer;
+    public String userAnswer;
+    public String[] possibleAnswers;
+    public boolean hasAttempted = false;
+    public boolean answeredCorrect = false;
+    public ArrayList<String> possible = new ArrayList<String>();
+    public int correctIndex;
+    public String id;
 
     // POJO Constructor
-    public Question() {
-        this.id = -1;
-        this.state = null;
-        this.capital = null;
-        this.city1 = null;
-        this.city2 = null;
-    }
-
-    // getters
-    public long getId() {
-        return id;
-    }
-    public String getState() {
-        return state;
-    }
-    public String getCapital() {
-        return capital;
-    }
-    public String getCity1() {
-        return city1;
-    }
-    public String getCity2() {
-        return city2;
-    }
-
-    // setters
-    public void setId(long id) {
+    public Question(String prompt, String state, String correctAnswer,
+                    String[] possibleAnswers, String id) {
+        this.possibleAnswers = possibleAnswers;
+        this.correctAnswer = correctAnswer;
+        this.state = state;
+        this.prompt = prompt;
+        System.out.println("Question created");
+        generateQuizList();
         this.id = id;
     }
-    public void setState(String state) {
-        this.state = state;
+
+    // function to shuffle answer choices
+    private void generateQuizList() {
+        for(int i = 0; i < possibleAnswers.length; i++) {
+            possible.add(possibleAnswers[i]);
+        }
+        possible.add(correctAnswer);
+        Collections.shuffle(possible);
+        for(int i = 0; i < possible.size(); i++) {
+            if(possible.get(i).equals(correctAnswer)) {
+                correctIndex = i;
+            }
+        }
     }
-    public void setCapital(String capital) {
-        this.capital = capital;
-    }
-    public void setCity1(String city1) {
-        this.city1 = city1;
-    }
-    public void setCity2(String city2) {
-        this.city2 = city2;
+
+    // checks if user answer is correct
+    public boolean checkAnswer(int index) {
+        return index == correctIndex;
     }
 
     // toString for output
     public String toString() {
-        return id + ": " + state + " " + capital + " " + city1 + " " + city2;
+        String toReturn = prompt + " " + correctAnswer + "* ";
+        for(String s : possibleAnswers){
+            toReturn += s + " ";
+        }
+        return toReturn;
     }
 }
