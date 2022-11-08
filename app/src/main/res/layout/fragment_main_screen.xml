@@ -15,11 +15,12 @@
             android:id="@+id/button2"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
             android:text="Start Quiz"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -35,12 +36,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView3"
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="A quiz is composed of 6 questions, each asking the user to identify a given state’s capital from among 3 choices."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Capital Quiz"
             android:textSize="34sp"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />

@@ -1,6 +1,9 @@
 package edu.uga.cs.project4;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -8,11 +11,18 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.ContentValues;
 import android.os.AsyncTask;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.content.res.Configuration;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.opencsv.CSVReader;
 
 import java.io.InputStream;
@@ -38,13 +48,19 @@ public class GameActivity extends AppCompatActivity {
     FragmentStateAdapter NewGameAdapter;
     ViewPager vpPager;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Data = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-
+        toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // Connect DrawerLayout events to the ActionBarToggle
 
         ViewPager2 pager = findViewById(R.id.viewpager);
         NewGameAdapter avpAdapter = new

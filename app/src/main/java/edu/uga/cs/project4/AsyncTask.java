@@ -1,6 +1,7 @@
 package edu.uga.cs.project4;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -38,6 +39,18 @@ import android.os.Looper;
     public void execute(Param... arguments) {
         executeInBackground(arguments);
     }
+
+    // This method will run as a background process to read from db.
+    // It returns a list of retrieved JobLead objects.
+    // It will be automatically invoked by Android, when we call the execute method
+    // in the onCreate callback (the job leads review activity is started).
+    protected abstract List<Quiz> doInBackground(Void... params);
+
+    // This method will be automatically called by Android once the db reading
+    // background process is finished.  It will then create and set an adapter to provide
+    // values for the RecyclerView.
+    // onPostExecute is like the notify method in an asynchronous method call discussed in class.
+    protected abstract void onPostExecute(List<Quiz> jobsList);
 
     protected abstract ArrayList<Question> doInBackgound();
     protected abstract void onPostExecute(ArrayList<Question> results);
