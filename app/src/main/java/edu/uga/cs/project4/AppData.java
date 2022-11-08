@@ -22,6 +22,7 @@ public class AppData {
     private SQLiteDatabase db;
     private SQLiteOpenHelper myDBHelper;
 
+
     public AppData(Context context) {
         this.myDBHelper = DBHelper.getInstance(context);
     }
@@ -114,12 +115,15 @@ public class AppData {
     }
 
     // store a new question in database
+
     /*public Question storeQuestion(Question question) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.QUESTIONS_COLUMN_STATE, question.getState());
-        values.put(DBHelper.QUESTIONS_COLUMN_CAPITAL, question.getCapital());
-        values.put(DBHelper.QUESTIONS_COLUMN_CITY1, question.getCity1());
-        values.put(DBHelper.QUESTIONS_COLUMN_CITY2, question.getCity2());
+       
+          ContentValues values = new ContentValues();
+//        values.put(DBHelper.QUESTIONS_COLUMN_STATE, question.getState());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CAPITAL, question.getCapital());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CITY1, question.getCity1());
+//        values.put(DBHelper.QUESTIONS_COLUMN_CITY2, question.getCity2());
+
 
         long id = db.insert(DBHelper.TABLE_QUESTIONS, null, values);
 
