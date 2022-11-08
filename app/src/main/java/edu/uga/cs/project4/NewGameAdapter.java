@@ -1,9 +1,11 @@
 package edu.uga.cs.project4;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.adapter.FragmentViewHolder;
 
 public class NewGameAdapter extends FragmentStateAdapter {
 
@@ -20,6 +22,8 @@ public class NewGameAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 6;
     }
+
+
 }

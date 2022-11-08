@@ -5,10 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 /**
@@ -42,6 +45,7 @@ public class newGameFragment extends Fragment {
     };
 
     private static int row;
+    private boolean answered = false;
 
     public newGameFragment() {
         // Required empty public constructor
@@ -53,6 +57,7 @@ public class newGameFragment extends Fragment {
         newGameFragment fragment = new newGameFragment();
         Bundle args = new Bundle();
         args.putInt( "rowNum", rowNumber );
+        args.putBoolean( "answered", false );
         fragment.setArguments( args );
         return fragment;
     }
@@ -77,5 +82,23 @@ public class newGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView titleView = view.findViewById( R.id.TextViewQuestion );
         titleView.setText(androidVersions[row]);
+        ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        page2.setUserInputEnabled(false);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                page2.setUserInputEnabled(true);
+            }
+        });
+    }
+
+    public boolean returnAnsweredStat(){
+        return answered;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

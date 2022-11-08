@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.RadioGroup;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -18,5 +20,5 @@ public class GameActivity extends AppCompatActivity {
         pager.setOrientation(
                 ViewPager2.ORIENTATION_HORIZONTAL );
         pager.setAdapter( avpAdapter );
-    }
+        }
 }
