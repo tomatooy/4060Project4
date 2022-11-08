@@ -16,7 +16,7 @@ import android.os.Looper;
  */
 public abstract class AsyncTask<Param, Result> {
 
-    private void executeInBackgroud(Param... params) {
+    private void executeInBackground(Param... params) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute( () -> {
@@ -36,7 +36,7 @@ public abstract class AsyncTask<Param, Result> {
     }
 
     public void execute(Param... arguments) {
-        executeInBackgroud(arguments);
+        executeInBackground(arguments);
     }
 
     protected abstract ArrayList<Question> doInBackgound();
