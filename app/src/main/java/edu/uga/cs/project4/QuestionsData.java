@@ -71,6 +71,10 @@ public class QuestionsData {
         return db.isOpen();
     }
 
+    /**
+     * retrives all questions and return them as an ArrayList
+     * @return ArrayList<Question>
+     */
     public ArrayList<Question> retrieveAllQuestions() {
         ArrayList<Question> questions = new ArrayList<>();
         Cursor cursor = null;
@@ -119,5 +123,33 @@ public class QuestionsData {
             }
         }
         return questions;
+    }
+
+    /**
+     * shuffles questions and returns six of them(without duplicates)
+     * @return ArrayList<Question>
+     */
+    public ArrayList<Question> generate6QuizQuestions() {
+        ArrayList<Question> allQuestions = retrieveAllQuestions();
+        Collections.shuffle(allQuestions);
+        ArrayList<Question> list = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            list.add(allQuestions.get(i));
+        }
+        return list;
+    }
+
+    /**
+     * insert new question into db
+     * @param question to insert
+     */
+    public void storeQuestion(Question question) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.QUESTIONS_COLUMN_STATENAME, question.getStateName());
+        values.put(DBHelper.QUESTIONS_COLUMN_CAPITALCITY, question.getCapitalCity());
+        values.put(DBHelper.QUESTIONS_COLUMN_SECONDCITY, question.getSecondCity());
+        values.put(DBHelper.QUESTIONS_COLUMN_THIRDCITY, question.getThirdCity());
+
+        db.insert(DBHelper.TABLE_QUESTIONS, null, values );
     }
 }
