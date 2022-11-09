@@ -72,12 +72,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void importStateCSV(ArrayList<String[]> data) {
-        AppData appData = new AppData();
-        //Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
-        //if(cursor.getCount() > 0) {
-            //Log.d(TAG, "data has been inserted already");
-        //}
-        //else {
+
+        AppData appData = new AppData(GameActivity.this);
+        Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
+        if(cursor.getCount() > 0) {
+            Log.d(TAG, "data has been inserted already");
+        }
+        else {
             for(int i = 0; i < data.size(); i++) {
                 Log.d(TAG, "insert " + i + " row");
                 ContentValues values = new ContentValues();
@@ -98,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            AppData db = new AppData();
+            AppData db = new AppData(GameActivity.this);
             db.open(GameActivity.this);
             ArrayList<String[]> stateSet = db.readTable("state");
 
@@ -121,6 +122,7 @@ public class GameActivity extends AppCompatActivity {
         }
         /*
         @Override
+
         protected void onPostExecute(Void unused) {
 
         }
@@ -131,7 +133,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            AppData db = new AppData();
+            AppData db = new AppData(GameActivity.this);
             db.open(GameActivity.this);
 
             // get last result key
@@ -165,8 +167,8 @@ public class GameActivity extends AppCompatActivity {
             db.close();
             return "executed";
         }
+
         /*
-        @Override
         protected void onPostExecute(Void unused) {
 
         }

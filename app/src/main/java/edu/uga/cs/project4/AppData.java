@@ -23,9 +23,9 @@ public class AppData {
     public SQLiteOpenHelper myDBHelper;
 
 
-    //public AppData(Context context) {
-      //  this.myDBHelper = DBHelper.getInstance(context);
-    //}
+    public AppData(Context context) {
+        this.myDBHelper = DBHelper.getInstance(context);
+    }
 
     // open the database
     public void open(Context context) {
