@@ -12,79 +12,80 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "quiz.db";
     private static final int DB_VERSION = 1;
 
-    // states table
-    public static final String TABLE_STATE = "state";
-    public static final String STATE_COLUMN_ID = "_id";
-    public static final String STATE_COLUMN_STATE = "state";
-    public static final String STATE_COLUMN_CAPITAL = "capital";
-    public static final String STATE_COLUMN_CITY1 = "city1";
-    public static final String STATE_COLUMN_CITY2 = "city2";
-    public static final String CREATE_STATE =
-            "CREATE TABLE " +  TABLE_STATE + "("
-                    + STATE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + STATE_COLUMN_STATE + " TEXT,"
-                    + STATE_COLUMN_CAPITAL  +" TEXT,"
-                    + STATE_COLUMN_CITY1 + " TEXT,"
-                    + STATE_COLUMN_CITY2 + " TEXT"
-                    + ")";
-
-    // results table
-    public static final String TABLE_RESULT = "result";
-    public static final String RESULT_COLUMN_ID = "_id";
-    public static final String RESULT_COLUMN_DATE = "date";
-    public static final String RESULT_COLUMN_SCORE = "score";
-    public static final String CREATE_RESULT =
-            "CREATE TABLE " + TABLE_RESULT  + "("
-                    + RESULT_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + RESULT_COLUMN_DATE + " TEXT, "
-                    + RESULT_COLUMN_SCORE + " TEXT "
-                    + ")";
-
-    // question table
+    // Questions
     public static final String TABLE_QUESTIONS = "questions";
-    public static final String QUESTIONS_COLUMN_ID = "_id";
-    public static final String QUESTIONS_COLUMN_RESULT_ID = "result_id";
-    public static final String QUESTIONS_COLUMN_STATE_ID = "state_id";
-    public static final String QUESTIONS_COLUMN_ANSWER = "answer";
-    public static final String QUESTIONS_COLUMN_CORRECTNESS = "correctness";
-    public static final String CREATE_QUESTIONS =
-            "CREATE TABLE " + TABLE_QUESTIONS  + "("
-                    + QUESTIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + QUESTIONS_COLUMN_RESULT_ID + " INTEGER,"
-                    + QUESTIONS_COLUMN_STATE_ID + " INTEGER,"
-                    + QUESTIONS_COLUMN_ANSWER + " TEXT,"
-                    + QUESTIONS_COLUMN_CORRECTNESS + " TEXT" + ")";
+    public static final String QUESTIONS_COLUMN_ID = "id";
+    public static final String QUESTIONS_COLUMN_STATENAME = "stateName";
+    public static final String QUESTIONS_COLUMN_CAPITALCITY = "capitalCity";
+    public static final String QUESTIONS_COLUMN_SECONDCITY = "secondCity";
+    public static final String QUESTIONS_COLUMN_THIRDCITY = "thirdCity";
+
+    // Quizzes
+    public static final String TABLE_QUIZZES = "quizzes";
+    public static final String QUIZZES_COLUMN_ID = "id";
+    public static final String QUIZZES_COLUMN_DATE = "date";
+    public static final String QUIZZES_COLUMN_QUESTION1 = "question_1";
+    public static final String QUIZZES_COLUMN_QUESTION2 = "question_2";
+    public static final String QUIZZES_COLUMN_QUESTION3 = "question_3";
+    public static final String QUIZZES_COLUMN_QUESTION4 = "question_4";
+    public static final String QUIZZES_COLUMN_QUESTION5 = "question_5";
+    public static final String QUIZZES_COLUMN_QUESTION6 = "question_6";
+    public static final String QUIZZES_COLUMN_RESULT = "result";
+    public static final String QUIZZES_COLUMN_QUESTIONSANSWERED = "questions_answered";
 
     // ref to only instance for the helper
     private static DBHelper helperInstance;
 
+    // A create sql tables
+    private static final String CREATE_QUESTIONS =
+            "create table " + TABLE_QUESTIONS + " ("
+                    + QUESTIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + QUESTIONS_COLUMN_STATENAME + " TEXT, "
+                    + QUESTIONS_COLUMN_CAPITALCITY + " TEXT, "
+                    + QUESTIONS_COLUMN_SECONDCITY + " TEXT, "
+                    + QUESTIONS_COLUMN_THIRDCITY + " TEXT"
+                    + ")";
+
+    private static final String CREATE_QUIZZES =
+            "create table " + TABLE_QUIZZES + " ("
+                    + QUIZZES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + QUIZZES_COLUMN_DATE + " TEXT, "
+                    + QUIZZES_COLUMN_QUESTION1 + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTION2 + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTION3 + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTION4 + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTION5 + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTION6 + " INTEGER, "
+                    + QUIZZES_COLUMN_RESULT + " INTEGER, "
+                    + QUIZZES_COLUMN_QUESTIONSANSWERED + " INTEGER"
+                    + ")";
 
     // private constructor
-    private DBHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    private DBHelper( Context context ) {
+        super( context, DB_NAME, null, DB_VERSION );
     }
 
-    public static synchronized DBHelper getInstance(Context context) {
-        // check if the instance already exists and if not, create instance
-        if(helperInstance == null) {
-            helperInstance = new DBHelper(context.getApplicationContext());
+    public static synchronized DBHelper getInstance( Context context ) {
+        // check if the instance already exists and if not, create the instance
+        if( helperInstance == null ) {
+            helperInstance = new DBHelper( context.getApplicationContext() );
         }
-
         return helperInstance;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_STATE);
+    public void onCreate( SQLiteDatabase db ) {
         db.execSQL(CREATE_QUESTIONS);
-        db.execSQL(CREATE_RESULT);
-        Log.d(DEBUG_TAG,"created");
+        db.execSQL(CREATE_QUIZZES);
+        Log.d( DEBUG_TAG, "Table " + TABLE_QUESTIONS + " created" );
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL( "drop table if exists capital" );
+    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
+        db.execSQL( "drop table if exists " + TABLE_QUESTIONS );
+        db.execSQL( "drop table if exists " + TABLE_QUIZZES );
         onCreate(db);
-        Log.d(DEBUG_TAG,"upgraded");
+        Log.d( DEBUG_TAG, "Table " + TABLE_QUESTIONS + " upgraded" );
+        Log.d( DEBUG_TAG, "Table " + TABLE_QUIZZES + " upgraded" );
     }
 }

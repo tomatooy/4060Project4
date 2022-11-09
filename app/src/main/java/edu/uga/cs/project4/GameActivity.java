@@ -73,11 +73,11 @@ public class GameActivity extends AppCompatActivity {
 
     public void importStateCSV(ArrayList<String[]> data) {
         AppData appData = new AppData();
-        Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
-        if(cursor.getCount() > 0) {
-            Log.d(TAG, "data has been inserted already");
-        }
-        else {
+        //Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
+        //if(cursor.getCount() > 0) {
+            //Log.d(TAG, "data has been inserted already");
+        //}
+        //else {
             for(int i = 0; i < data.size(); i++) {
                 Log.d(TAG, "insert " + i + " row");
                 ContentValues values = new ContentValues();
@@ -88,10 +88,10 @@ public class GameActivity extends AppCompatActivity {
                 appData.db.insert(DBHelper.TABLE_STATE, null, values);
             }
             Log.d(TAG, "data first time insert");
-        }
-        if(cursor != null) {
-            cursor.close();
-        }
+        //}
+        //if(cursor != null) {
+            //cursor.close();
+        //}
     }
 
     private class loadQuiz extends AsyncTask<String, Void, String> {
@@ -119,11 +119,12 @@ public class GameActivity extends AppCompatActivity {
             quiz = new Quiz(questions);
             return "exec";
         }
-
+        /*
         @Override
         protected void onPostExecute(Void unused) {
 
         }
+         */
     }
 
     private class saveTask extends AsyncTask<String, Void, String> {
@@ -164,10 +165,13 @@ public class GameActivity extends AppCompatActivity {
             db.close();
             return "executed";
         }
+        /*
         @Override
         protected void onPostExecute(Void unused) {
 
         }
+        */
+
 
     }
 
