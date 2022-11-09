@@ -22,8 +22,11 @@ import com.opencsv.CSVReader;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 public class GameActivity extends AppCompatActivity {
     final String TAG = "db";
@@ -118,8 +121,57 @@ public class GameActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void unused) {}
+        protected void onPostExecute(Void unused) {
+
+        }
     }
+
+    private class saveTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            AppData db = new AppData();
+            db.open(GameActivity.this);
+
+            // get last result key
+            int lastResultID = Integer.parseInt(db.getLastPrimaryKey("result"));
+            lastResultID += 1;
+            ContentValues values = new ContentValues();
+
+            // get date for result row insert
+            Date currentTime = Calendar.getInstance().getTime();
+            String d = DateFormat.getDateInstance(DateFormat.SHORT).format(currentTime);
+
+            // format to 2 decimal places
+            double score = quiz.percentCorrect * 10000;
+            score = (int) (score) / 100;
+
+            // insert data into result table
+            values.put(DBHelper.RESULT_COLUMN_DATE, d);
+            values.put(DBHelper.RESULT_COLUMN_SCORE, score);
+            db.db.insert(DBHelper.TABLE_RESULT, null, values);
+
+            // insert all questions from this quiz into question table
+            for (Question q : questions) {
+                ContentValues insertValues = new ContentValues();
+                insertValues.put(DBHelper.QUESTIONS_COLUMN_RESULT_ID, lastResultID);
+                insertValues.put(DBHelper.QUESTIONS_COLUMN_STATE_ID, Integer.parseInt(q.id));
+                insertValues.put(DBHelper.QUESTIONS_COLUMN_ANSWER, q.userAnswer);
+                insertValues.put(DBHelper.QUESTIONS_COLUMN_CORRECTNESS, (q.answeredCorrect) ? "true" : "false");
+                db.db.insert(DBHelper.TABLE_QUESTIONS, null, insertValues);
+            }
+
+            db.close();
+            return "executed";
+        }
+        @Override
+        protected void onPostExecute(Void unused) {
+
+        }
+
+    }
+
+
 
 
 }
