@@ -10,8 +10,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,16 +52,22 @@ public class newGameFragment extends Fragment {
     private int answer;
     private boolean anySelected;
 
+    RadioGroup radioGroup;
+    TextView screenPrompt;
+    Question question;
+    String prompt;
+
+
     public newGameFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static newGameFragment newInstance(int rowNumber) {
+    public static newGameFragment newInstance(int index) {
         newGameFragment fragment = new newGameFragment();
         Bundle args = new Bundle();
-        args.putInt( "rowNum", rowNumber );
+        args.putInt( "index", index );
         args.putBoolean( "anySelected", false );
         fragment.setArguments( args );
         return fragment;
@@ -73,12 +82,74 @@ public class newGameFragment extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_game, container, false);
     }
+    */
+   @Override
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
+       int layoutid = R.layout.fragment_new_game;
+       View view;
+
+       if(getShownIndex() == 6){
+           view = inflater.inflate(layoutid, container, false);
+           return  view;
+       }
+
+       view = inflater.inflate(layoutid, container, false);
+
+
+
+       radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+       screenPrompt = (TextView) view.findViewById(R.id.TextViewQuestion);
+
+       double percentComplete = ((double)getShownIndex() / (double)6) * 100;
+       System.out.println(percentComplete + " ");
+
+       radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+       {
+           @Override
+           public void onCheckedChanged(RadioGroup group, int checkedId) {
+               int selectedId = radioGroup.getCheckedRadioButtonId();
+
+               RadioButton radioButton = (RadioButton)getView().findViewById(selectedId);
+
+               System.out.println(radioButton.getText());
+
+               View rb = radioGroup.findViewById(selectedId);
+               int index = radioGroup.indexOfChild(rb);
+               System.out.println("Selected index: "  + index);
+               ((GameActivity)getActivity()).quiz.answer(index);
+
+
+           }
+       });
+
+
+
+       if (! ((GameActivity)getActivity()).quiz.isFinished()) { // If the user is still taking the quiz, load the question
+           if(getShownIndex() >= 6){
+               return view;
+           }
+           Question currentQuestion = ((GameActivity)getActivity()).quiz.questions.get(getShownIndex()); // Load the current question
+
+           System.out.println(currentQuestion.toString());
+
+           screenPrompt.setText(currentQuestion.prompt); // set the new p
+
+           char[] letters = {'A', 'B', 'C'};
+           for (int i = 0; i < currentQuestion.possible.size(); i++) {
+               ((RadioButton) (radioGroup.getChildAt(i))).setText(letters[i] + ") " + currentQuestion.possible.get(i));
+           }
+       } else {
+           //((GameActivity)getActivity()).goToScore();
+       }
+
+       return view;
+   }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -101,5 +172,9 @@ public class newGameFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    public int getShownIndex() {
+       return getArguments().getInt("index", 0);
     }
 }
