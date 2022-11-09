@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void importStateCSV(ArrayList<String[]> data) {
-        AppData appData = new AppData();
+        AppData appData = new AppData(GameActivity.this);
         Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
         if(cursor.getCount() > 0) {
             Log.d(TAG, "data has been inserted already");
@@ -98,7 +98,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            AppData db = new AppData();
+            AppData db = new AppData(GameActivity.this);
             db.open(GameActivity.this);
             ArrayList<String[]> stateSet = db.readTable("state");
 
@@ -120,7 +120,7 @@ public class GameActivity extends AppCompatActivity {
             return "exec";
         }
 
-        @Override
+
         protected void onPostExecute(Void unused) {
 
         }
@@ -130,7 +130,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            AppData db = new AppData();
+            AppData db = new AppData(GameActivity.this);
             db.open(GameActivity.this);
 
             // get last result key
@@ -164,7 +164,7 @@ public class GameActivity extends AppCompatActivity {
             db.close();
             return "executed";
         }
-        @Override
+
         protected void onPostExecute(Void unused) {
 
         }

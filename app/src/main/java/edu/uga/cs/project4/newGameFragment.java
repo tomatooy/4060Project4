@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class newGameFragment extends Fragment {
     TextView screenPrompt;
     Question question;
     String prompt;
+    int index;
 
 
     public newGameFragment() {
@@ -77,8 +79,7 @@ public class newGameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if( getArguments() != null ) {
-            row = getArguments().getInt( "rowNum" );
-            anySelected = getArguments().getBoolean("anySelected");
+            index = getArguments().getInt( "index" );
         }
     }
 
@@ -95,6 +96,7 @@ public class newGameFragment extends Fragment {
        View view;
 
        if(getShownIndex() == 6){
+           layoutid = R.layout.submit_page;
            view = inflater.inflate(layoutid, container, false);
            return  view;
        }
@@ -154,6 +156,22 @@ public class newGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(index==6){
+            TextView Header = view.findViewById(R.id.textView5);
+            TextView Score = view.findViewById(R.id.textView6);
+            Button submit = view.findViewById(R.id.buttonSubmit);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Header.setText("Your Score:");
+                    Score.setText(String.valueOf(100)); //placeholder to read calculated score
+                    /*
+                    * place for inset quiz reslut to databse
+                    * */
+                }
+            });
+        }
+        else{
         TextView titleView = view.findViewById( R.id.TextViewQuestion );
         titleView.setText(testData[row]);
         ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
@@ -166,6 +184,7 @@ public class newGameFragment extends Fragment {
             }
 
         });
+        }
     }
 
 
