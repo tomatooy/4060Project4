@@ -49,6 +49,7 @@ public class newGameFragment extends Fragment {
     private int answer;
     private boolean anySelected;
 
+
     public newGameFragment() {
         // Required empty public constructor
     }
