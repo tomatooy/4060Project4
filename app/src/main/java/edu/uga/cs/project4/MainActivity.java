@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
+    QuestionsData questionsData = null;
+    QuizData quizData = null;
+
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;

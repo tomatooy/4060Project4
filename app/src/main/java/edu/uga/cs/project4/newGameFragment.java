@@ -74,14 +74,14 @@ public class newGameFragment extends Fragment {
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-       int layoutid = R.layout.fragment_new_game;
-       View view;
+       //int layoutid = R.layout.fragment_new_game;
+       //View view;
        // ***
        return inflater.inflate(R.layout.fragment_new_game, container, false );
    }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewPager2 pager = view.findViewById(R.id.viewPager);
         if (pager != null) {
