@@ -46,7 +46,7 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View view) {
                 // *****
-                Intent intent = new Intent( getActivity(), MainActivity.class);
+                Intent intent = new Intent( getActivity(), GameActivity.class);
                 startActivity(intent);
             }
         });
