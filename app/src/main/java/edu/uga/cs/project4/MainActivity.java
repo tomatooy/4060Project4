@@ -15,15 +15,15 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.File;
-import java.nio.file.Path;
-
 /**
  * The main activity class.  It just sets listeners for the two buttons.
  */
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+
+    QuestionsData questionsData = null;
+    QuizData quizData = null;
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -35,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+
         // assigning ID of the toolbar to a variable
         toolbar = findViewById( R.id.toolbar );
+
         // using toolbar as ActionBar
         setSupportActionBar( toolbar );
-        File dbPath = this.getDatabasePath("quiz.db");
-        this.deleteDatabase(String.valueOf(dbPath));
+
         // Find our drawer view
         drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawerToggle = setupDrawerToggle();

@@ -149,6 +149,7 @@ public class QuestionsData {
         values.put(DBHelper.QUESTIONS_COLUMN_CAPITALCITY, question.getCapitalCity());
         values.put(DBHelper.QUESTIONS_COLUMN_SECONDCITY, question.getSecondCity());
         values.put(DBHelper.QUESTIONS_COLUMN_THIRDCITY, question.getThirdCity());
+
         db.insert(DBHelper.TABLE_QUESTIONS, null, values );
     }
 }

@@ -18,7 +18,7 @@ public class newGameFragmentContainer extends Fragment {
     private ViewPager2 pager;
     private NewGameAdapter qAdapter;
     private QuestionsData questionsData = null;
-    private QuizData quizzesData = null;
+    private QuizData quizData = null;
     public static ArrayList<Question> the6Questions = new ArrayList<>(6);
     public static ArrayList<String> userAnswers = new ArrayList<>(6);
     public static long currentQuizID = -1;
@@ -52,9 +52,9 @@ public class newGameFragmentContainer extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         questionsData = new QuestionsData(getActivity());
-        quizzesData = new QuizData(getActivity());
+        quizData = new QuizData(getActivity());
         questionsData.open();
-        quizzesData.open();
+        quizData.open();
         pager = view.findViewById( R.id.viewPager );
 
         if (savedInstanceState != null) {
@@ -83,8 +83,8 @@ public class newGameFragmentContainer extends Fragment {
         if(questionsData != null && !questionsData.isDBOpen()) { //Is there a reason to having 2 of theese?
             questionsData.open();
         }
-        if(quizzesData != null && !quizzesData.isDBOpen()) {
-            quizzesData.open();
+        if(quizData != null && !quizData.isDBOpen()) {
+            quizData.open();
         }
     }
 
@@ -146,7 +146,7 @@ public class newGameFragmentContainer extends Fragment {
 
         @Override
         protected Quiz doInBackground( Quiz... quizzes ) {
-            return quizzesData.storeQuiz( quizzes[0] );
+            return quizData.storeQuiz( quizzes[0] );
         }
 
         @Override

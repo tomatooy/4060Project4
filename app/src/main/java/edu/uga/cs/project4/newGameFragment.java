@@ -74,94 +74,12 @@ public class newGameFragment extends Fragment {
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-       int layoutid = R.layout.fragment_new_game;
-       View view;
+       //int layoutid = R.layout.fragment_new_game;
+       //View view;
        // ***
        return inflater.inflate(R.layout.fragment_new_game, container, false );
    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ViewPager2 pager = view.findViewById(R.id.viewPager);
-        if (pager != null) {
-            pager.setUserInputEnabled(false);
-        }
-        quizData = new QuizData(getActivity());
-        quizData.open();
-
-        header = view.findViewById(R.id.textView5);
-        results = (TextView) getActivity().findViewById(R.id.textView6);
-        question = view.findViewById(R.id.textView2);
-        radioButton = view.findViewById(R.id.radioButton5);
-        radioButton2 = view.findViewById(R.id.radioButton6);
-        radioButton3 = view.findViewById(R.id.radioButton7);
-
-        question.setText("What is the state capital of: " +
-                newGameFragmentContainer.the6Questions.get(questionNumber).getStateName());
-
-        if (savedInstanceState == null) {
-            answerChoices = new ArrayList<>();
-            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getCapitalCity());
-            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getSecondCity());
-            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getThirdCity());
-            Collections.shuffle(answerChoices);
-        }
-
-        radioButton.setText(answerChoices.get(0));
-        radioButton2.setText(answerChoices.get(1));
-        radioButton3.setText(answerChoices.get(2));
-
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (!changedOrientation || newGameFragmentContainer.userAnswers.get(questionNumber).equals("")) {
-                    if (i == R.id.radioButton5) {
-                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(0));
-                        //selectedAnswer = answerChoices.get(0);
-                    } else if (i == R.id.radioButton6) {
-                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(1));
-                        //selectedAnswer = answerChoices.get(1);
-                    } else if (i == R.id.radioButton7) {
-                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(2));
-                        //selectedAnswer = answerChoices.get(2);
-                    }
-                    updateScore();
-                }
-                changedOrientation = false;
-/*
-        if(index==6){
-            TextView Header = view.findViewById(R.id.textView5);
-            TextView Score = view.findViewById(R.id.textView6);
-            Button submit = view.findViewById(R.id.buttonSubmit);
-            submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Header.setText("Your Score:");
-                    Score.setText(String.valueOf(100)); //placeholder to read calculated score
-                    /*
-                    * place for inset quiz reslut to databse
-                    *
-                }
-            });
-        }
-        else{
-        TextView titleView = view.findViewById( R.id.TextViewQuestion );
-        titleView.setText(testData[row]);
-        ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
-        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
-        page2.setUserInputEnabled(false);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                page2.setUserInputEnabled(true);
-            }
-*/
-            }
-        });
-    }
 
         // opens db if closed and runs function to show toast if correct or not correct
     @Override
@@ -241,5 +159,88 @@ public class newGameFragment extends Fragment {
         protected void onPostExecute(Void unused) {
 
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewPager2 pager = view.findViewById(R.id.viewPager);
+        if (pager != null) {
+            pager.setUserInputEnabled(false);
+        }
+        quizData = new QuizData(getActivity());
+        quizData.open();
+
+        header = view.findViewById(R.id.textView5);
+        results = (TextView) getActivity().findViewById(R.id.textView6);
+        question = view.findViewById(R.id.textView2);
+        radioButton = view.findViewById(R.id.radioButton5);
+        radioButton2 = view.findViewById(R.id.radioButton6);
+        radioButton3 = view.findViewById(R.id.radioButton7);
+
+        question.setText("What is the state capital of: " +
+                newGameFragmentContainer.the6Questions.get(questionNumber).getStateName());
+
+        if (savedInstanceState == null) {
+            answerChoices = new ArrayList<>();
+            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getCapitalCity());
+            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getSecondCity());
+            answerChoices.add(newGameFragmentContainer.the6Questions.get(questionNumber).getThirdCity());
+            Collections.shuffle(answerChoices);
+        }
+
+        radioButton.setText(answerChoices.get(0));
+        radioButton2.setText(answerChoices.get(1));
+        radioButton3.setText(answerChoices.get(2));
+
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (!changedOrientation || newGameFragmentContainer.userAnswers.get(questionNumber).equals("")) {
+                    if (i == R.id.radioButton5) {
+                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(0));
+                        //selectedAnswer = answerChoices.get(0);
+                    } else if (i == R.id.radioButton6) {
+                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(1));
+                        //selectedAnswer = answerChoices.get(1);
+                    } else if (i == R.id.radioButton7) {
+                        newGameFragmentContainer.userAnswers.set(questionNumber, answerChoices.get(2));
+                        //selectedAnswer = answerChoices.get(2);
+                    }
+                    updateScore();
+                }
+                changedOrientation = false;
+/*
+        if(index==6){
+            TextView Header = view.findViewById(R.id.textView5);
+            TextView Score = view.findViewById(R.id.textView6);
+            Button submit = view.findViewById(R.id.buttonSubmit);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Header.setText("Your Score:");
+                    Score.setText(String.valueOf(100)); //placeholder to read calculated score
+                    /*
+                    * place for inset quiz reslut to databse
+                    *
+                }
+            });
+        }
+        else{
+        TextView titleView = view.findViewById( R.id.TextViewQuestion );
+        titleView.setText(testData[row]);
+        ViewPager2 page2 = ((GameActivity) getActivity()).findViewById(R.id.viewpager);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        page2.setUserInputEnabled(false);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                page2.setUserInputEnabled(true);
+            }
+*/
+            }
+        });
     }
 }

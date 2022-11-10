@@ -88,4 +88,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d( DEBUG_TAG, "Table " + TABLE_QUESTIONS + " upgraded" );
         Log.d( DEBUG_TAG, "Table " + TABLE_QUIZZES + " upgraded" );
     }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.setVersion(oldVersion);
+    }
 }

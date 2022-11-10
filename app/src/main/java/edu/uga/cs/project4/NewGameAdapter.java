@@ -17,6 +17,11 @@ public class NewGameAdapter extends FragmentStateAdapter {
 
     @Override
     public Fragment createFragment(int position){
+        if (position == 6){
+            return viewHistoryFragment.newInstance();
+
+        }
+
         return newGameFragment.newInstance( position );
     }
 
