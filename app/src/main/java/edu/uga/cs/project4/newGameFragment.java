@@ -171,8 +171,8 @@ public class newGameFragment extends Fragment {
         quizData = new QuizData(getActivity());
         quizData.open();
 
-        header = view.findViewById(R.id.textView5);
-        results = (TextView) getActivity().findViewById(R.id.textView6);
+        header = view.findViewById(R.id.textView6);
+        results = (TextView) getActivity().findViewById(R.id.textView5);
         question = view.findViewById(R.id.textView2);
         radioButton = view.findViewById(R.id.radioButton5);
         radioButton2 = view.findViewById(R.id.radioButton6);
