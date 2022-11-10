@@ -80,6 +80,87 @@ public class newGameFragment extends Fragment {
        return inflater.inflate(R.layout.fragment_new_game, container, false );
    }
 
+
+        // opens db if closed and runs function to show toast if correct or not correct
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(quizData != null && !quizData.isDBOpen()) {
+            quizData.open();
+        }
+        if (firstTimeLoading) {
+            displayCorrectOrIncorrect(questionNumber);
+        }
+    }
+
+    // closes db on pause
+    @Override
+    public void onPause() {
+        super.onPause();
+        new QuizDBUpdater().execute();
+        if(quizData != null && !quizData.isDBOpen()) {
+            quizData.close();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("questionNumber", questionNumber);
+        outState.putStringArrayList("answerChoices", answerChoices);
+        outState.putBoolean("hasSelectedCorrectAnswer", hasSelectedCorrectAnswer);
+        outState.putBoolean("firstTimeLoading", firstTimeLoading);
+        outState.putBoolean("changedOrientation", true);
+    }
+
+
+    // updates score using container fragment
+    public void updateScore() {
+        if (newGameFragmentContainer.userAnswers.get(questionNumber)
+                .equals(newGameFragmentContainer.the6Questions.get(questionNumber).getCapitalCity())) {
+            hasSelectedCorrectAnswer = true;
+            newGameFragmentContainer.score++;
+        } else {
+            if (hasSelectedCorrectAnswer) {
+                newGameFragmentContainer.score--;
+                hasSelectedCorrectAnswer = false;
+            }
+        }
+    }
+
+    // displays toast showing if answer is right or wrong
+    public void displayCorrectOrIncorrect(int questionNumber) {
+        String text = "";
+        if (questionNumber == 0) {
+            return;
+        }
+        if (newGameFragmentContainer.userAnswers.get(questionNumber - 1)
+                .equals(newGameFragmentContainer.the6Questions.get(questionNumber - 1).getCapitalCity())) {
+            text = "Correct!!";
+        } else {
+            text = "Wrong!!";
+        }
+        Toast toast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+        toast.show();
+        firstTimeLoading = false;
+    }
+
+
+    // updates db with async
+    public class QuizDBUpdater extends AsyncTask<Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arguments) {
+            quizData.updateQuizByID(newGameFragmentContainer.currentQuizID, "", newGameFragmentContainer.score, questionNumber);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -161,85 +242,5 @@ public class newGameFragment extends Fragment {
 */
             }
         });
-    }
-
-        // opens db if closed and runs function to show toast if correct or not correct
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(quizData != null && !quizData.isDBOpen()) {
-            quizData.open();
-        }
-        if (firstTimeLoading) {
-            displayCorrectOrIncorrect(questionNumber);
-        }
-    }
-
-    // closes db on pause
-    @Override
-    public void onPause() {
-        super.onPause();
-        new QuizDBUpdater().execute();
-        if(quizData != null && !quizData.isDBOpen()) {
-            quizData.close();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("questionNumber", questionNumber);
-        outState.putStringArrayList("answerChoices", answerChoices);
-        outState.putBoolean("hasSelectedCorrectAnswer", hasSelectedCorrectAnswer);
-        outState.putBoolean("firstTimeLoading", firstTimeLoading);
-        outState.putBoolean("changedOrientation", true);
-    }
-
-
-    // updates score using container fragment
-    public void updateScore() {
-        if (newGameFragmentContainer.userAnswers.get(questionNumber)
-                .equals(newGameFragmentContainer.the6Questions.get(questionNumber).getCapitalCity())) {
-            hasSelectedCorrectAnswer = true;
-            newGameFragmentContainer.score++;
-        } else {
-            if (hasSelectedCorrectAnswer) {
-                newGameFragmentContainer.score--;
-                hasSelectedCorrectAnswer = false;
-            }
-        }
-    }
-
-    // displays toast showing if answer is right or wrong
-    public void displayCorrectOrIncorrect(int questionNumber) {
-        String text = "";
-        if (questionNumber == 0) {
-            return;
-        }
-        if (newGameFragmentContainer.userAnswers.get(questionNumber - 1)
-                .equals(newGameFragmentContainer.the6Questions.get(questionNumber - 1).getCapitalCity())) {
-            text = "Correct!!";
-        } else {
-            text = "Wrong!!";
-        }
-        Toast toast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
-        toast.show();
-        firstTimeLoading = false;
-    }
-
-
-    // updates db with async
-    public class QuizDBUpdater extends AsyncTask<Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... arguments) {
-            quizData.updateQuizByID(newGameFragmentContainer.currentQuizID, "", newGameFragmentContainer.score, questionNumber);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-
-        }
     }
 }
