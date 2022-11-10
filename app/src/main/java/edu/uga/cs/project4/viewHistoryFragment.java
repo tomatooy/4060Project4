@@ -23,52 +23,23 @@ import java.util.List;
  */
 public class viewHistoryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private AppData quizData = null;
-    private List<Quiz> quizList;
-
     private RecyclerView recyclerView;
     private HistoryRecyclerAdapter recyclerAdapter;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<Quiz> quizList = new ArrayList<>();
+    private QuizData quizData;
 
     public viewHistoryFragment() {
         // Required empty public constructor
     }
+
     public static viewHistoryFragment newInstance() {
         viewHistoryFragment fragment = new viewHistoryFragment();
-        return fragment;
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment newHistoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static viewHistoryFragment newInstance(String param1, String param2) {
-        viewHistoryFragment fragment = new viewHistoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -81,15 +52,55 @@ public class viewHistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         recyclerView = getView().findViewById( R.id.recyclerView );
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager( layoutManager );
+
+        quizData = new QuizData(getActivity());
+        quizData.open();
+
+        new QuizDBReader().execute();
+        /*
+
         List<Quiz> QuizList = new ArrayList<>();
         QuizList.add(new Quiz());
         QuizList.add(new Quiz());
         recyclerAdapter = new HistoryRecyclerAdapter( getActivity(), QuizList );
         recyclerView.setAdapter( recyclerAdapter );
+        */
+
     }
 
+    public class QuizDBReader extends AsyncTask<Void, List<Quiz>> {
 
+        @Override
+        protected List<Quiz> doInBackground( Void... params ) {
+            List<Quiz> allQuizzes = quizData.retrieveAllQuizzes();
+            return allQuizzes;
+        }
+
+        @Override
+        protected void onPostExecute(List<Quiz> allQuizzes) {
+            quizList.addAll(allQuizzes);
+            recyclerAdapter = new HistoryRecyclerAdapter( getActivity(), quizList );
+            recyclerView.setAdapter( recyclerAdapter );
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (quizData != null) {
+            quizData.open();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (quizData != null) {
+            quizData.close();
+        }
+    }
 }
