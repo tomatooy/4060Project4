@@ -27,18 +27,17 @@ public class HistoryRecyclerAdapter
     private final Context context;
 
     private List<Quiz> values;
-    private List<Quiz> originalValues;
 
     public HistoryRecyclerAdapter(Context context, List<Quiz> quizList) {
         this.context = context;
         this.values = quizList;
-        this.originalValues = new ArrayList<Quiz>(quizList);
     }
 
     // reset the originalValues to the current contents of values
-    public void sync() {
-        originalValues = new ArrayList<Quiz>(values);
-    }
+    //public void sync() {
+       // originalValues = new ArrayList<Quiz>(values);
+    //}
+
 
     // The adapter must have a ViewHolder class to "hold" one item to show.
     public static class QuizHolder extends RecyclerView.ViewHolder {
@@ -47,7 +46,7 @@ public class HistoryRecyclerAdapter
         TextView Score;
 
 
-        public QuizHolder(View itemView) {
+        public QuizHolder(@NonNull View itemView) {
             super(itemView);
 
             Date = itemView.findViewById(R.id.date);
@@ -57,7 +56,7 @@ public class HistoryRecyclerAdapter
 
     @NonNull
     @Override
-    public QuizHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryRecyclerAdapter.QuizHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // We need to make sure that all CardViews have the same, full width, allowed by the parent view.
         // This is a bit tricky, and we must provide the parent reference (the second param of inflate)
         // and false as the third parameter (don't attach to root).
@@ -71,10 +70,10 @@ public class HistoryRecyclerAdapter
     @Override
     public void onBindViewHolder(QuizHolder holder, int position) {
 
-        Quiz quiz = values.get(position);
-        Log.d(DEBUG_TAG, "onBindViewHolder: " + quiz);
-        holder.Date.setText("10/01/2022");
-        holder.Score.setText("100");
+        Quiz quiz = values.get( position );
+
+        holder.Score.setText( "Score: " + String.valueOf(quiz.getResult()));
+        holder.Date.setText( "Date: " + quiz.getDate() );
     }
 
     @Override
