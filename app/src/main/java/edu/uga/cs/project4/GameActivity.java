@@ -14,7 +14,10 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.google.android.material.navigation.NavigationView;
@@ -29,20 +32,16 @@ import java.util.Collections;
 import java.util.Date;
 
 public class GameActivity extends AppCompatActivity {
-    final String TAG = "db";
-    Quiz quiz;
-    final int NUM_QUESTIONS = 6;
-    ArrayList<Question> questions = new ArrayList<Question>();
 
     ArrayList<String[]> Data;
     Toolbar toolbar;
+    QuestionsData questionsData = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Data = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        //loadQuiz(db);
 
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -55,6 +54,11 @@ public class GameActivity extends AppCompatActivity {
         pager.setOrientation(
                 ViewPager2.ORIENTATION_HORIZONTAL);
         pager.setAdapter(avpAdapter);
+
+        //questionsData = new QuestionsData(GameActivity.this);
+        //setUpInitialData();
+
+        /*
         try {
             InputStream in_s = getAssets().open("state_capitals.csv");
             CSVReader reader = new CSVReader(new InputStreamReader(in_s));
@@ -63,115 +67,43 @@ public class GameActivity extends AppCompatActivity {
                 Data.add(row);
             }
         } catch (Exception e) {
-            Log.e( "error", e.toString() );
+            Log.e("error", e.toString());
         }
-        importStateCSV(Data);
-        Log.d("arr",Data.toString());
+        Log.d("arr", Data.toString());
 
-        new loadQuiz().execute();
+         */
     }
 
-    public void importStateCSV(ArrayList<String[]> data) {
-        AppData appData = new AppData(GameActivity.this);
-        Cursor cursor = appData.db.rawQuery("SELECT * FROM " + "state", null);
-        if(cursor.getCount() > 0) {
-            Log.d(TAG, "data has been inserted already");
-        }
-        else {
-            for(int i = 0; i < data.size(); i++) {
-                Log.d(TAG, "insert " + i + " row");
-                ContentValues values = new ContentValues();
-                values.put(DBHelper.STATE_COLUMN_STATE, data.get(i)[0]);
-                values.put(DBHelper.STATE_COLUMN_CAPITAL, data.get(i)[1]);
-                values.put(DBHelper.STATE_COLUMN_CITY1, data.get(i)[2]);
-                values.put(DBHelper.STATE_COLUMN_CITY2, data.get(i)[3]);
-                appData.db.insert(DBHelper.TABLE_STATE, null, values);
+    //public void setUpInitialData() {
+        //readAndStoreValuesFromCSV();
+    //}
+
+
+
+    private void readAndStoreValuesFromCSV() {
+        try {
+            InputStream in_s = getAssets().open( "state_capitals.csv" );
+            CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
+            reader.skip(1);
+            String[] nextRow;
+
+            while( ( nextRow = reader.readNext() ) != null ) {
+                Question question = new Question(nextRow[0], nextRow[1], nextRow[2], nextRow[3]);
+                questionsData.storeQuestion(question);
+                //return question;
             }
-            Log.d(TAG, "data first time insert");
-        }
-        if(cursor != null) {
-            cursor.close();
-        }
-    }
-
-    private class loadQuiz extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            AppData db = new AppData(GameActivity.this);
-            db.open(GameActivity.this);
-            ArrayList<String[]> stateSet = db.readTable("state");
-
-            Collections.shuffle(stateSet);
-
-            // get fist 6 random questions and add to ArrayList
-            for (int i = 0; i < NUM_QUESTIONS; i++) {
-                String row[] = stateSet.get(i);
-                String id = row[0];
-                String state = row[1];
-                String prompt = "What is the capital of " + state + "?";
-                String possible[] = {row[3], row[4]};
-                String correct = row[2];
-                Question q = new Question(prompt, state, correct, possible, id);
-                questions.add(q);
-            }
-            db.close();
-            quiz = new Quiz(questions);
-            return "exec";
-        }
-
-
-        protected void onPostExecute(Void unused) {
+        } catch (Exception e) {
 
         }
     }
 
-    private class saveTask extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-            AppData db = new AppData(GameActivity.this);
-            db.open(GameActivity.this);
 
-            // get last result key
-            int lastResultID = Integer.parseInt(db.getLastPrimaryKey("result"));
-            lastResultID += 1;
-            ContentValues values = new ContentValues();
-
-            // get date for result row insert
-            Date currentTime = Calendar.getInstance().getTime();
-            String d = DateFormat.getDateInstance(DateFormat.SHORT).format(currentTime);
-
-            // format to 2 decimal places
-            double score = quiz.percentCorrect * 10000;
-            score = (int) (score) / 100;
-
-            // insert data into result table
-            values.put(DBHelper.RESULT_COLUMN_DATE, d);
-            values.put(DBHelper.RESULT_COLUMN_SCORE, score);
-            db.db.insert(DBHelper.TABLE_RESULT, null, values);
-
-            // insert all questions from this quiz into question table
-            for (Question q : questions) {
-                ContentValues insertValues = new ContentValues();
-                insertValues.put(DBHelper.QUESTIONS_COLUMN_RESULT_ID, lastResultID);
-                insertValues.put(DBHelper.QUESTIONS_COLUMN_STATE_ID, Integer.parseInt(q.id));
-                insertValues.put(DBHelper.QUESTIONS_COLUMN_ANSWER, q.userAnswer);
-                insertValues.put(DBHelper.QUESTIONS_COLUMN_CORRECTNESS, (q.answeredCorrect) ? "true" : "false");
-                db.db.insert(DBHelper.TABLE_QUESTIONS, null, insertValues);
-            }
-
-            db.close();
-            return "executed";
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (questionsData != null) {
+            questionsData.close();
         }
-
-        protected void onPostExecute(Void unused) {
-
-        }
-
     }
-
-
-
-
 }
