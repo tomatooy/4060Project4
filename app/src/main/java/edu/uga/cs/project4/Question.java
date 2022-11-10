@@ -1,7 +1,7 @@
 package edu.uga.cs.project4;
 
 import android.os.Parcel;
-import android.os.Parcelable
+import android.os.Parcelable;
 
 public class Question implements Parcelable{
     // instance variables for columns in table
