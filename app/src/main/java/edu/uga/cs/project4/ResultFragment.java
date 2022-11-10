@@ -51,16 +51,16 @@ public class ResultFragment extends Fragment {
         quizData = new QuizData(getActivity());
         quizData.open();
 
-        //Button homeButton = view.findViewById(R.id.button3);
-        /*
+        Button homeButton = view.findViewById(R.id.buttonSubmit);
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QuizFragmentContainer.setUpQuiz();
+                newGameFragmentContainer.setUpQuiz();
                 getActivity().onBackPressed();
             }
         });
-        */
+
 
     }
 

@@ -32,7 +32,7 @@
         android:id="@+id/buttonSubmit"
         android:layout_width="133dp"
         android:layout_height="82dp"
-        android:text="Submit"
+        android:text="Home"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
