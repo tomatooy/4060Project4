@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -67,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
         // Create a new fragment based on the used selection in the nav drawer
         switch( menuItem.getItemId() ) {
             case R.id.menu_game:
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                MainActivity.this.startActivity(intent);
+                FragmentManager fragmentTransaction = getSupportFragmentManager();
+                newGameFragmentContainer NewGameFragmentContainer = newGameFragmentContainer.newInstance();
+                fragmentTransaction.beginTransaction().replace(R.id.fragmentContainerView, NewGameFragmentContainer).addToBackStack("main screen").commit();
+                drawerLayout.closeDrawers();
                 return;
             case R.id.menu_histry:
                 fragment = new viewHistoryFragment();

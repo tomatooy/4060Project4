@@ -55,8 +55,7 @@ public class MainScreen extends Fragment {
                 FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
                 newGameFragmentContainer NewGameFragmentContainer = newGameFragmentContainer.newInstance();
                 fragmentTransaction.replace(R.id.fragmentContainerView, NewGameFragmentContainer).addToBackStack("main screen").commit();
-                //Intent intent = new Intent( getActivity(), GameActivity.class);
-                //startActivity(intent);
+
             }
         });
         questionsData = new QuestionsData(getActivity());
